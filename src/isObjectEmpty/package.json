@@ -1,0 +1,23 @@
+{
+  "name": "kaizen-helpers",
+  "version": "1.0.0",
+  "description": "A compendium of helpers compiled from several years of experience",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/poleodevfe/kaizen-helpers.git"
+  },
+  "keywords": [
+    "typescript",
+    "helpers"
+  ],
+  "author": "jesus poleo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/poleodevfe/kaizen-helpers/issues"
+  },
+  "homepage": "https://github.com/poleodevfe/kaizen-helpers#readme"
+}
