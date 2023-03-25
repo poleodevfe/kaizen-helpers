@@ -1,20 +1,20 @@
-## Requisitos
+## Requirements
 
-1. Ten instalado el plugin de [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscodes)
-2. Sigue las indicaciones del plugin para habilitar el guardado automático al salvar tu archivo
-3. Después de instalar las dependencias del proyecto, inicia tu viaje con `npm run husky`
+1. Have the [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscodes) plugin installed.
+2. Follow the plugin's instructions to enable automatic saving when saving your file.
+3. After installing the project's dependencies, start your trip with `npm run husky`.
 
-## Reglas generales
+## General rules
 
-1. Todo debe ser escrito en ingles, desde comentarios a nombre de funciones
-2. Las ramas habilitadas para trabajar son `["feat", "fix", "perf", "docs", "ci"]` por ejemplo: ci/improvePipelines, feat/newHelper
+1. Everything must be written in English, from comments to function names.
+2. Enabled branches to work are `["feat", "fix", "perf", "docs", "ci"]` for example: ci/improvePipelines, feat/newHelper
 
-## Sobre los tests
+## About the tests
 
-1. Hacemos tests para las [personas](https://97cosas.com/programador/escribe-pruebas-para-personas.html)
-2. Usamos `it` y no `test`
-3. Todos nuestros tests deben estar envueltos por un `describe`
-4. Usamos SWA (Should when and) para describir nuestros tests
-5. Usamos AAA (Arrange, Act y Assert) para estructurar nuestros tests
-6. Todas las funciones deben cubrir el caso de error
-7. Todas las funciones deben llevar JSDocs
+1. We make tests for the [people](https://97cosas.com/programador/escribe-pruebas-para-personas.html).
+2. We use `it` and not `test`.
+3. All our tests must be wrapped by a `describe`.
+4. We use SWA (Should when and) to describe our tests.
+5. We use AAA (Arrange, Act and Assert) to structure our tests.
+6. All functions must cover the error case.
+7. All functions must have JSDocs.
