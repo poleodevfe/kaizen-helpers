@@ -2,9 +2,9 @@ name: Deployment Pipeline
 
 on:
   push:
-    branches: [master, develop]
+    branches: [main, develop]
   pull_request:
-    branches: [master, develop]
+    branches: [main, develop]
     types: [opened, edited]
 
 jobs:
@@ -16,11 +16,12 @@ jobs:
         with:
           access_token: ${{ github.token }}
 
-  Validate-PR-title:
+  Prepare-PR:
     if: ${{github.event_name == 'pull_request' || github.event_name == 'pull_request_target'}}
-    needs: "Avoid-redundancy"
+    needs: 'Avoid-redundancy'
     runs-on: ubuntu-latest
     steps:
+      - name: Validate PR title
       - uses: amannn/action-semantic-pull-request@v5
         with:
           types: |
@@ -35,22 +36,47 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  Install-lint-types-test:
+      - name: Add labels to PR based on title
+        uses: actions/github-script@v5
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const pr = context.payload.pull_request;
+            const labelMappings = {
+              'fix:': 'fix',
+              'docs': 'docs',
+              'ci': 'ci',
+              'feat:': 'feat',
+              'perf:': 'perf'
+            };
+
+            const labelToAdd = Object.keys(labelMappings).find(prefix => pr.title.startsWith(prefix));
+
+            if (labelToAdd) {
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: pr.number,
+                labels: [labelMappings[labelToAdd]]
+              });
+            }
+
+  Static-and-unit-test:
     if: github.event_name == 'pull_request'
-    needs: "Validate-PR-title"
+    needs: 'Prepare-PR'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
           node-version: 18
-          cache: "npm"
+          cache: 'npm'
       - name: Install Deps
         run: npm ci
       - name: Check linter
-        run: npm run check:eslint
+        run: npm run lint
       - name: Check types
-        run: npm run check:types
+        run: npm run ts
       - name: Check tests
         run: npm run test -- --coverage
         env:
@@ -58,7 +84,7 @@ jobs:
 
   Semantic-Release:
     if: ${{ (github.event_name == 'push') && always() }}
-    needs: [Avoid-redundancy, Install-lint-types-test, Validate-PR-title]
+    needs: [Avoid-redundancy, Static-and-unit-test, Prepare-PR]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

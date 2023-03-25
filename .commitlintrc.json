@@ -1,4 +1,4 @@
 {
   "extends": ["@commitlint/config-conventional"],
-  "type-enum": ["feat", "fix", "perf"]
+  "type-enum": ["feat", "fix", "perf", "docs", "ci"]
 }
