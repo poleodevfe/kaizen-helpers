@@ -1,0 +1,74 @@
+name: Deployment Pipeline
+
+on:
+  push:
+    branches: [master, develop]
+  pull_request:
+    branches: [master, develop]
+    types: [opened, edited]
+
+jobs:
+  Avoid-redundancy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cancel redundant process
+        uses: styfle/cancel-workflow-action@0.11.0
+        with:
+          access_token: ${{ github.token }}
+
+  Validate-PR-title:
+    if: ${{github.event_name == 'pull_request' || github.event_name == 'pull_request_target'}}
+    needs: "Avoid-redundancy"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: amannn/action-semantic-pull-request@v5
+        with:
+          types: |
+            feat
+            fix
+            perf
+          subjectPattern: ^(?![A-Z]).+$
+          subjectPatternError: |
+            The subject "{subject}" found in the pull request title "{title}"
+            didn't match the configured pattern. Please ensure that the subject
+            doesn't start with an uppercase character.
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  Install-lint-types-test:
+    if: github.event_name == 'pull_request'
+    needs: "Validate-PR-title"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: "npm"
+      - name: Install Deps
+        run: npm ci
+      - name: Check linter
+        run: npm run check:eslint
+      - name: Check types
+        run: npm run check:types
+      - name: Check tests
+        run: npm run test -- --coverage
+        env:
+          CI: true
+
+  Semantic-Release:
+    if: ${{ (github.event_name == 'push') && always() }}
+    needs: [Avoid-redundancy, Install-lint-types-test, Validate-PR-title]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Prepare node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Execute semantic release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npx semantic-release
