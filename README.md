@@ -16,3 +16,4 @@
 4- Usamos SWA (Should when and) para describir nuestros tests
 5- Usamos AAA (Arrange, Act y Assert) para estructurar nuestros tests
 6- Todas las funciones deben cubrir el caso de error
+7- Todas las funciones deben llevar JSDocs

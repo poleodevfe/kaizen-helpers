@@ -12,7 +12,7 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "copy-files": "copyfiles -u 1 src/**/*.css dist/",
-    "format": "npx prettier --write src/filterObject/index.test.ts"
+    "format": "npx prettier --write src/**/*.ts"
   },
   "repository": {
     "type": "git",

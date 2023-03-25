@@ -2,6 +2,7 @@
 . "$(dirname "$0")/_/husky.sh"
 
 #Run eslint for all files
+npm run format
 npm run lint
 npm run ts
 git add .
