@@ -6,7 +6,7 @@
   "scripts": {
     "husky": "husky install",
     "clean": "rimraf dist",
-    "build": "npm run clean && tsc && tsc-alias",
+    "build": "npm run clean && tsc",
     "ts": "tsc --noemit",
     "lint": "eslint 'src/**/*.{ts}' --fix --max-warnings=0 --no-error-on-unmatched-pattern",
     "test": "jest",
