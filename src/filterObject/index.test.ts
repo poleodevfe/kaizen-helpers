@@ -6,12 +6,12 @@ describe('filterObject(obj, ["keys","keys"])', () => {
     const obj = {
       prop1: 'value1',
       prop2: 'value2',
-      prop3: 'value3',
+      prop3: 'value3'
     }
     const keys = ['prop1', 'prop3']
     const result = {
       prop1: 'value1',
-      prop3: 'value3',
+      prop3: 'value3'
     }
     // act & assert
     expect(filterObject(obj, keys)).toEqual(result)
@@ -22,7 +22,7 @@ describe('filterObject(obj, ["keys","keys"])', () => {
     const obj = {
       prop1: 'value1',
       prop2: 'value2',
-      prop3: 'value3',
+      prop3: 'value3'
     }
     const keys = ['prop4', 'prop5']
     // act & assert
