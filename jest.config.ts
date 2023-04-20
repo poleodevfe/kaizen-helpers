@@ -10,7 +10,7 @@ const arr = readFileSync(path, 'utf8')
     const [variable, value] = i.split('=')
     return {
       ...vars,
-      [variable]: value,
+      [variable]: value
     }
   }, {})
 
@@ -21,21 +21,23 @@ const config: Config.InitialOptions = {
     global: {
       branches: 35,
       functions: 35,
-      lines: 35,
-    },
+      lines: 35
+    }
   },
   collectCoverageFrom: [
-    'shared/**/*.{ts}',
+    'src/**/*.{ts}',
     '!**/*.d.ts',
     '!**/node_modules/**',
-    '!**/coverage/**',
+    '!**/coverage/**'
   ],
   moduleNameMapper: {
-    '^src/(.*)\\.ts$': '<rootDir>/src/$1',
+    // '^src/(.*)\\.ts$': '<rootDir>/src/$1',
+    // '^src(.*)$': '<rootDir>/src$1'
+    '^src/(.*)\\.ts$': '<rootDir>/src$1'
   },
   testEnvironment: 'node',
   testPathIgnorePatterns: ['<rootDir>/node_modules/'],
-  roots: ['<rootDir>/src/'],
+  roots: ['<rootDir>/src/']
   // setupFilesAfterEnv: ['<rootDir>/jest.setup.ts']
 }
 
